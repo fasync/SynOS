@@ -62,12 +62,12 @@ stack_top:
 section .text
 global _start:function (_start.end - _start)
 _start:
-	mov esp, stack_top	; Prepare Stackpointer
+	mov esp, [rel stack_top] ; Prepare Stackpointer
 extern _kmain
-	call _kmain              ; Switch to Kernel
-	cli			; Disable interrupts, preparing to go down.
+	call _kmain wrt ..plt    ; Switch to Kernel
+	cli			 ; Disable interrupts, preparing to go down.
 .hang:
-	hlt			; Infinite loop
+	hlt			 ; Infinite loop
 	jmp .hang
-.end:				; Bye
+.end:				 ; Bye
 ;; TEXT ==++

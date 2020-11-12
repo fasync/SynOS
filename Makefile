@@ -2,8 +2,8 @@ cc = clang++
 arch = amd64
 version = 0_0_1
 target = ${arch}-unknown-symos
-kernel = Build/symos_kernel_${arch}_${version}.bin
-iso = Build/symos_run_${arch}_${version}.iso
+kernel = Build/synos_kernel_${arch}_${version}.bin
+iso = Build/synos_run_${arch}_${version}.iso
 
 
 all: iso
