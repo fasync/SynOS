@@ -5,9 +5,12 @@ target = ${arch}-unknown-symos
 kernel = Build/synos_kernel_${arch}_${version}.bin
 iso = Build/synos_run_${arch}_${version}.iso
 
-
-all: iso
+all: prepare iso
 	@echo "[!] Building SynOS finished."
+
+prepare:
+	@chmod u+x ./env
+	@./env
 
 iso: kernel
 	@echo "[4] Building ISO File"
