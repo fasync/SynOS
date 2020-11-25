@@ -1,28 +1,39 @@
 ENTRY(_start)
+OUTPUT_FORMAT(elf64-x86-64)
+
+BASE =  0xFFFFFFFF80000000;
 
 SECTIONS {
-    . = 1M;  /* Tells GRUB to load the kernel starting at the 1MiB mark */
+    . = 0x100000;  /* Tells GRUB to load the kernel starting at the 1MiB mark */
+    . += SIZEOF_HEADERS;
 
-    .text ALIGN(4K) :
-    {
-    /* Ensure that the multiboot header is at the beginning */
-	*(.multiboot)
-        *(.text)
+ /* Ensure that the multiboot header is at the beginning */
+    .init : AT(ADDR(.init)) {
+	KEEP( *(.multiboot) )
+	*(.itext)
     }
 
-    .rodata ALIGN(4K) :
+    . += BASE;
+
+    .text ALIGN(0x1000) : AT(ADDR(.text) - BASE)
     {
-	*(.rodata)
+        *(.text .text.*)
     }
 
-    .data ALIGN(4K) :
+    .rodata ALIGN(0x1000) : AT(ADDR(.rodata) - BASE)
     {
-	*(.data)
+	*(.rodata .rodata.*)
     }
 
-    .bss ALIGN(4K) :
+    .data ALIGN(0x1000) : AT(ADDR(.data) - BASE)
     {
-	*(COMMON)
-	*(.bss)
+	*(.data .data.*)
     }
+
+    .bss : AT(ADDR(.bss) - BASE)
+    {
+	*(.bss .bss.*)
+    }
+
+    kernel_end = .;
 }

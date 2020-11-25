@@ -8,11 +8,11 @@ code_obj!= find . -name "*.cpp" | sed -e "s/cpp/o/"
 all: kernel
 
 kernel: ${asm_obj} ${code_obj} ${ld_sh}
-	@ld -T ${ld_sh} ${code_obj} ${asm_obj} -o ${kernel} -O2 -nostdlib 
+	@ld -T ${ld_sh} ${code_obj} ${asm_obj} -o ${kernel} -O2 -nostdlib
 
 ${code_obj}: ${code_src}
 	@echo "[3] Building CPP files"
-	@${cc} -c ${.IMPSRC} -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -fPIC -o ${.TARGET}
+	@${cc} -c ${.IMPSRC} -ffreestanding -O2 -Werror -Wall -Wextra -fno-exceptions -fno-rtti -fPIC -o ${.TARGET}
 
 ${asm_obj}: ${asm_src}
 	@echo "[2] Building ASM files"
