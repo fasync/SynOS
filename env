@@ -1,7 +1,10 @@
 #!/bin/sh
 
-if [[ $(uname) == "OpenBSD" ]]; then
+if [ $(uname) == "OpenBSD" ]; then
     ulimit -d $((2*1024*1024));  # Increase datasize for QEMU
+elif [ $(uname) == "FreeBSD" ]; then
+    true
 else
+    
     echo "WARN: Your OS is not supported."
 fi

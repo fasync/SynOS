@@ -42,11 +42,6 @@
 	MAGIC   equ 0x1BADB002	    ; Multiboot magic number
 	CRC     equ -(MAGIC + FLAGS)    ; Multiboot Checksum
 ;; MULTIBOOT ==++
-
-%macro DBG 1
-	mov al, %1
-	out 0x3F8, al
-%endmacro
 	
 ;; HEADER ==++
 	; This is our Multiboot header.
@@ -72,7 +67,6 @@ global _start
 _start:
 	; mov [rel multiboot_sig - BASE], eax
 	; mov [rel multiboot_ptr - BASE], ebx
-	DBG 0x01
 	mov eax, 0x80000000	; Prepare protected mode
 	cpuid
 	cmp eax, 0x80000001	; Check for CPUID
@@ -128,7 +122,6 @@ _long_start:
 	mov gs, ax
 
 	lea rsp, [rel init_stack]
-	DBG 0x02
 
 	call _kmain wrt ..plt
 	
