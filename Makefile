@@ -16,11 +16,16 @@ iso: kernel
 	@echo "[4] Building ISO File"
 	@mkisofs -o ${iso} ${kernel} > /dev/null 2>&1
 
-kernel:
+
+kernel: lib
 	@mkdir -p Build/arch/${arch}
 	@echo "[1] Building Kernel"
-	@make cc=${cc} arch=${arch} version=${version} -C ./kernel
+	@make cc=${cc} arch=${arch} version=${version} -C ./kern
 
+lib:
+	@echo "[0] Building C+KLib"
+	@make cc=${cc} arch=${arch} version=${version} -C ./Clib
+	@make cc=${cc} arch=${arch} version=${version} -C ./Klib
 
 .PHONY: all clean run iso kernel
 
@@ -29,6 +34,8 @@ run: iso
 	@qemu-system-x86_64 -cdrom ${iso} -vga std -s -serial file:serial.log
 
 clean:
-	@make arch=${arch} version=${version} clean -C ./kernel
+	@make arch=${arch} version=${version} clean -C ./kern
+	@make arch=${arch} version=${version} clean -C ./Clib
+	@make arch=${arch} version=${version} clean -C ./Klib
 	@echo "Cleaning root"
 	@rm -rf Build
