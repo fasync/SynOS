@@ -26,6 +26,17 @@
 #pragma once
 
 namespace synos { namespace core { namespace syscall {
-class placeholder {
+class SyscallTable {
+	SyscallTable() {}
+	SyscallTable(const SyscallTable&);
+	SyscallTable & operator = (const SyscallTable&);
+public:
+	static SyscallTable& get_instance()
+	{
+		static SyscallTable _instance;
+		return _instance;
+	}
+
+	
 };
 }}}
