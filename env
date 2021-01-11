@@ -5,6 +5,5 @@ if [ $(uname) == "OpenBSD" ]; then
 elif [ $(uname) == "FreeBSD" ]; then
     true
 else
-    
     echo "WARN: Your OS is not supported."
 fi

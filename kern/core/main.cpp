@@ -30,7 +30,6 @@
 // |____/ \__, |_| |_|\___/|____/
 //        |___/
 //
-// The Power of Minimalism
 
 extern "C" void
 _kmain()
