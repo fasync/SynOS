@@ -4,10 +4,10 @@
 #include "log/log.hpp"
 #include "string.hpp"
 
-namespace stdk {
+namespace stdk { namespace Error {
 static void
 panic(stdk::string, stdk::Log::Logger log,
     stdk::Error::ErrorType type = stdk::Error::ErrorType::Fatal)
 {
 }
-}
+}}

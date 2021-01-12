@@ -23,8 +23,9 @@ kernel: lib
 	@make cc=${cc} arch=${arch} version=${version} -C ./kern
 
 lib:
-	@echo "[0] Building C+KLib"
+	@echo "[0] Building CXX+C+KLib"
 	@make cc=${cc} arch=${arch} version=${version} -C ./Clib
+	@make cc=${cc} arch=${arch} version=${version} -C ./CXXlib
 	@make cc=${cc} arch=${arch} version=${version} -C ./Klib
 
 .PHONY: all clean run iso kernel
@@ -36,6 +37,7 @@ run: iso
 clean:
 	@make arch=${arch} version=${version} clean -C ./kern
 	@make arch=${arch} version=${version} clean -C ./Clib
+	@make arch=${arch} version=${version} clean -C ./CXXlib
 	@make arch=${arch} version=${version} clean -C ./Klib
 	@echo "Cleaning root"
 	@rm -rf Build

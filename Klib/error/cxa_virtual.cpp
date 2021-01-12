@@ -8,6 +8,6 @@
 extern "C" void
 __cxa_pure_virtual()
 {
-	stdk::panic(
+	stdk::Error::panic(
 	    "ERROR: Not all virtual functions could be called. This is dangerous.");
 }

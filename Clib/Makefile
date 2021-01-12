@@ -1,6 +1,6 @@
 CC=clang++
-SRC!= find . -name "*.cpp"
-OBJ!= find . -name "*.cpp" | sed -e "s/cpp/o/"
+SRC!= find . -name "*.c"
+OBJ!= find . -name "*.c" | sed -e "s/c/o/"
 
 all:
 	@echo "Clib -- Not yet implemented"
