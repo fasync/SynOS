@@ -5,27 +5,20 @@ asm_obj!= ls arch/${arch}/*.nasm | sed -e "s/nasm/o/"
 code_src!= find . -name "*.cpp"
 code_obj!= find . -name "*.cpp" | sed -e "s/cpp/o/"
 
-CFLAGS+= -ffreestanding
-CFLAGS+= -O2
-CFLAGS+= -Werror
-CFLAGS+= -Wall
-CFLAGS+= -Wextra
-CFLAGS+= -fno-exceptions
-CFLAGS+= -fno-rtti
-CFLAGS+= -fPIC
 CFLAGS+= -I./../Klib/
+LDFLAGS+= -L./../Klib/klib.o
 
 all: kernel
 
 kernel: ${asm_obj} ${code_obj} ${ld_sh}
-	@ld -T ${ld_sh} ${code_obj} ${asm_obj} -o ${kernel} -O2 -nostdlib
+	@ld -T ${ld_sh} ${code_obj} ${asm_obj} ${LDFLAGS} -o ${kernel} -O2 -nostdlib
 
 ${code_obj}: ${code_src}
-	@echo "[3] Building CPP files"
+	@echo "[4] Building CPP files"
 	@${cc} -c ${.IMPSRC} ${CFLAGS} -o ${.TARGET}
 
 ${asm_obj}: ${asm_src}
-	@echo "[2] Building ASM files"
+	@echo "[3] Building ASM files"
 	@nasm -f elf64 ${.ALLSRC} -o ${.TARGET}
 
 .PHONY: all clean

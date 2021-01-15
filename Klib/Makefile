@@ -1,9 +1,11 @@
-CC=clang++
 SRC!= find . -name "*.cpp"
 OBJ!= find . -name "*.cpp" | sed -e "s/cpp/o/"
 
-all:
-	@echo "Klib -- Not yet implemented"
+all: ${OBJ}
+
+${OBJ}: ${SRC}
+	@echo "[1] Building Klib"
+	@${cc} -c ${.IMPSRC} ${CFLAGS} -o ${.TARGET} 
 
 .PHONY: clean
 

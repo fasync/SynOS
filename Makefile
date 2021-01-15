@@ -5,6 +5,15 @@ target = ${arch}-unknown-symos
 kernel = Build/synos_kernel_${arch}_${version}.bin
 iso = Build/synos_run_${arch}_${version}.iso
 
+CFLAGS+= -ffreestanding
+CFLAGS+= -O2
+CFLAGS+= -Werror
+CFLAGS+= -Wall
+CFLAGS+= -Wextra
+CFLAGS+= -fno-exceptions
+CFLAGS+= -fno-rtti
+CFLAGS+= -fPIC
+
 all: prepare iso
 	@echo "[!] Building SynOS finished."
 
@@ -13,20 +22,20 @@ prepare:
 	@./env
 
 iso: kernel
-	@echo "[4] Building ISO File"
+	@echo "[5] Building ISO File"
 	@mkisofs -o ${iso} ${kernel} > /dev/null 2>&1
 
 
 kernel: lib
 	@mkdir -p Build/arch/${arch}
-	@echo "[1] Building Kernel"
-	@make cc=${cc} arch=${arch} version=${version} -C ./kern
+	@echo "[2] Building Kernel"
+	@make cc=${cc} arch=${arch} CFLAGS="${CFLAGS}" version=${version} -C ./kern
 
 lib:
 	@echo "[0] Building CXX+C+KLib"
-	@make cc=${cc} arch=${arch} version=${version} -C ./Clib
-	@make cc=${cc} arch=${arch} version=${version} -C ./CXXlib
-	@make cc=${cc} arch=${arch} version=${version} -C ./Klib
+	@make cc=${cc} arch=${arch} CFLAGS="${CFLAGS}" version=${version} -C ./Clib
+	@make cc=${cc} arch=${arch} CFLAGS="${CFLAGS}" version=${version} -C ./CXXlib
+	@make cc=${cc} arch=${arch} CFLAGS="${CFLAGS}" version=${version} -C ./Klib
 
 .PHONY: all clean run iso kernel
 
