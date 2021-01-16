@@ -7,6 +7,6 @@
  */
 extern "C" void __cxa_pure_virtual()
 {
-	stdk::Error::panic(
-		"ERROR: Not all virtual functions could be called. This is dangerous.");
+	// synos::core::error::panic(
+	// 	"ERROR: Not all virtual functions could be called. This is dangerous.");
 }
