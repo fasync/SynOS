@@ -23,16 +23,39 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "panic.hpp"
+#pragma once
 
-/**
- * This function gets called if our kernel detects that not all pure virtual
- * functions can be called.
- * This should NEVER be called. If it is, it's probably because of undefined
- * behavior.
- */
-extern "C" void __cxa_pure_virtual()
+#include <string.hpp>
+#include <system/types.hpp>
+#include "ip.hpp"
+
+namespace synos
 {
-	synos::core::error::panic(
-		"ERROR: Not all virtual functions could be called. This is dangerous.");
-}
+namespace net
+{
+namespace core
+{
+/**
+ * @brief Specify a endpoint (for example a client in the local network) 
+ *        who is allowed to read the published resource at url
+ */
+template <typename IP> class Endpoint {
+	/// The remote IP which is allowed to connect. This param must be defined at bootup. It can't be changed later.
+	const IP ip_;
+
+	/// The resource which is allowed to read. Probably a log from a specific subsystem.
+	const stdk::string url_;
+
+    public:
+	/**
+	 * @brief Constructs a endpoint object
+	 * @param ip The remote IP which is allowed to connect. This param must be defined at bootup. It can't be changed later.
+	 * @param url The resource which is allowed to read. Probably a log from a specific subsystem.
+	 */
+	Endpoint(IP ip, stdk::string url) : ip_(ip), url_(url)
+	{
+	}
+};
+} // namespace core
+} // namespace net
+} // namespace synos

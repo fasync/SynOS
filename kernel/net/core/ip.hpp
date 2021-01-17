@@ -23,16 +23,46 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "panic.hpp"
+#pragma once
 
-/**
- * This function gets called if our kernel detects that not all pure virtual
- * functions can be called.
- * This should NEVER be called. If it is, it's probably because of undefined
- * behavior.
- */
-extern "C" void __cxa_pure_virtual()
+#include <string.hpp>
+#include <system/types.hpp>
+
+namespace synos
 {
-	synos::core::error::panic(
-		"ERROR: Not all virtual functions could be called. This is dangerous.");
-}
+namespace net
+{
+namespace core
+{
+class IPaddr {
+    public:
+	uint_16 addr[8];
+
+	virtual stdk::string to_string() const noexcept = 0;
+	virtual stdk::string to_url() const noexcept = 0;
+};
+
+class IP4addr : public IPaddr {
+    public:
+	IP4addr(const uint_8 f_octed, const uint_8 s_octed,
+		const uint_8 t_octed, const uint_8 l_octed)
+	{
+		addr[0] = f_octed;
+		addr[1] = s_octed;
+		addr[2] = t_octed;
+		addr[4] = l_octed;
+	}
+
+	stdk::string to_string() const noexcept;
+	stdk::string to_url() const noexcept;
+};
+
+class IP6addr : public IPaddr {
+    public:
+	IP6addr()
+	{
+	}
+};
+} // namespace core
+} // namespace net
+} // namespace synos
